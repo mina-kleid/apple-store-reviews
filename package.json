@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "fetchReviews": "node src/service/index.js",
-    "start": "nodemon src/app.js --watch src/"
+    "start": "nodemon src/app.js --watch src/",
+    "lint": "eslint src"
   },
   "keywords": [],
   "author": "",
