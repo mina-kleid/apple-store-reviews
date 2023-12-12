@@ -1,6 +1,7 @@
 /* global describe,it,beforeEach */
 import * as reviewsService from '../../src/service/reviews'
 import { getReviews } from '../../src/controller/reviewsController'
+import { expect, jest } from '@jest/globals'
 
 jest.mock('../../src/service/reviews')
 
