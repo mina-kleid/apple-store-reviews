@@ -5,7 +5,7 @@ import {
   FILE_NAME,
   TO_DATE,
   FILE_PATH
-} from '../configuration.js'
+} from './configuration.js'
 
 export async function fetchReviews(appId) {
   const fileName = `${FILE_PATH}/${appId}-${FILE_NAME}`;

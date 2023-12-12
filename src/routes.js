@@ -1,5 +1,5 @@
 import express from 'express';
-import { getReviews,  refreshReviews} from './controller/reviewsController.js';
+import { getReviews, refreshReviews } from './controller/reviewsController.js';
 import { authenticateToken } from './middlewar/authMiddleware.js';
 
 const router = express.Router();
