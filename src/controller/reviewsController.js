@@ -1,16 +1,28 @@
-import fs from 'fs/promises';
-import { FILE_NAME, FILE_PATH } from '../configuration.js';
+import { fetchReviews, updateReviews } from '../service/reviews.js'
 
 export async function getReviews(req, res) {
-  const { appId } = req.params;
-  const fileName = `${FILE_PATH}/${appId}-${FILE_NAME}`;
-
   try {
-    const fileContent = await fs.readFile(fileName, 'utf8');
-    const reviews = JSON.parse(fileContent);
+    const { appId } = req.params
+    const reviews = await fetchReviews(appId)
 
     res.json({ reviews });
   } catch (error) {
-    res.status(500).json({ error: 'Unable to fetch reviews' });
+    if (error.code === 'ENOENT') {
+      res.json({ reviews: [] });
+    } else {
+      res.status(500).json({ error: 'Unable to fetch reviews' });
+    }
+  }
+}
+
+export async function refreshReviews(req, res) {
+  try {
+    const { appId } = req.params;
+
+    await updateReviews(appId);
+
+    res.status(200).send();
+  } catch (error) {
+    res.status(500).json({ error: 'Unable to refresh reviews' });
   }
 }
