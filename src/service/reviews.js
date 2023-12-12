@@ -55,7 +55,7 @@ async function persistReviews (appId, reviews) {
   const cleanedReviews = reviews.map((review) => {
     return {
       author: review.author.name.label,
-      updated: review.updated.label,
+      updatedAt: review.updated.label,
       rating: review['im:rating'].label,
       content: review.content.label
     }
