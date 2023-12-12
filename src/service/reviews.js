@@ -1,6 +1,5 @@
 import axios from 'axios';
 import fs from 'fs/promises';
-import path from 'path';
 import {
   MAXIMUM_REVIEW_DEPTH,
   FILE_NAME,
@@ -9,8 +8,15 @@ import {
 } from '../configuration.js'
 
 export async function fetchReviews(appId) {
+  const fileName = `${FILE_PATH}/${appId}-${FILE_NAME}`;
+  const fileContent = await fs.readFile(fileName, 'utf8');
+  const reviews = JSON.parse(fileContent);
+
+  return reviews
+}
+
+export async function updateReviews(appId) {
   const baseUrl = `https://itunes.apple.com/us/rss/customerreviews/id=${appId}/sortBy=mostRecent`;
-  const currentDate = new Date();
 
   let pageNumber = 1;
   let reviews = [];
@@ -36,24 +42,25 @@ export async function fetchReviews(appId) {
     }
 
     if (reviews.length > 0) {
-      let cleanedReviews = reviews.map((review) => {
-        return {
-          author: review.author.name.label,
-          updated: review.updated.label,
-          rating: review["im:rating"].label,
-          content: review.content.label
-        }
-      });
-
-      persistReviews(appId, cleanedReviews)
+      persistReviews(appId, reviews)
     }
 
   } catch (error) {
     console.error('Error fetching reviews:', error.message);
+
+    throw error;
   }
 }
 
 async function persistReviews(appId, reviews) {
+  let cleanedReviews = reviews.map((review) => {
+    return {
+      author: review.author.name.label,
+      updated: review.updated.label,
+      rating: review["im:rating"].label,
+      content: review.content.label
+    }
+  });
   const fileName = `${FILE_PATH}/${appId}-${FILE_NAME}`;
 
   try {
@@ -61,9 +68,7 @@ async function persistReviews(appId, reviews) {
     if (!exist) {
       await fs.mkdir(FILE_PATH, { recursive: true });
     }
-    fs.writeFile(fileName, JSON.stringify(reviews, null, 2), 'utf8');
-
-    console.log('Reviews appended to reviews.json');
+    fs.writeFile(fileName, JSON.stringify(cleanedReviews, null, 2), 'utf8');
   } catch (error) {
     console.error('Error appending reviews to file:', error.message);
   }

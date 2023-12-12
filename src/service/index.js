@@ -1,9 +1,9 @@
-import { fetchReviews } from "./fetchReviews.js";
+import { updateReviews } from "./reviews.js";
 
 const args = process.argv.slice(2);
 
 if (args.length > 0) {
-  fetchReviews(args)
+  updateReviews(args)
     .then(() => {
       console.log('Reviews fetched successfully');
     })
