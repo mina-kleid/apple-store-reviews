@@ -20,7 +20,7 @@ export async function getReviews (req, res) {
     if (error.code === 'ENOENT') {
       res.json({ reviews: [] })
     } else {
-      res.status(500).json({ error: 'Unable to fetch reviews' })
+      res.status(400).json({ error: 'Unable to fetch reviews' })
     }
   }
 }
@@ -33,6 +33,6 @@ export async function refreshReviews (req, res) {
 
     res.status(200).send()
   } catch (error) {
-    res.status(500).json({ error: 'Unable to refresh reviews' })
+    res.status(400).json({ error: 'Unable to refresh reviews' })
   }
 }

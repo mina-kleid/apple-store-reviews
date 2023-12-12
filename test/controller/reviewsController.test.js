@@ -23,7 +23,7 @@ describe('Review Controller', () => {
     expect(mockRes.json).toHaveBeenCalledWith({ reviews: [], pagination: { currentPage: 1, itemsPerPage: 0, totalItems: 0, totalPages: 0 } })
   })
 
-  it('should handle an exception and return a 500 status code', async () => {
+  it('should handle an exception and return a 400 status code', async () => {
     reviewsService.fetchReviews.mockRejectedValue(new Error('Test Error'))
 
     const mockReq = { params: { appId: 'appId' }, query: {} }
@@ -34,7 +34,7 @@ describe('Review Controller', () => {
 
     await getReviews(mockReq, mockRes)
 
-    expect(mockRes.status).toHaveBeenCalledWith(500)
+    expect(mockRes.status).toHaveBeenCalledWith(400)
     expect(mockRes.json).toHaveBeenCalledWith({ error: 'Unable to fetch reviews' })
   })
 })
