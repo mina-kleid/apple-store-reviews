@@ -1,12 +1,11 @@
 export function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const apiKey = req.headers['x-api-key'];
 
-  if (!token) {
+  if (!apiKey) {
     return res.sendStatus(401);
   }
 
-  if (token !== process.env.AUTH_TOKEN) {
+  if (apiKey !== process.env.API_KEY) {
     return res.sendStatus(403);
   }
 
