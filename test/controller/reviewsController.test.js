@@ -13,7 +13,7 @@ describe('Review Controller', () => {
   it('should return an empty array of reviews when there are no reviews', async () => {
     reviewsService.fetchReviews.mockResolvedValue([])
 
-    const mockReq = { params: { appId: '' }, query: {} }
+    const mockReq = { params: { appId: 'appId' }, query: {} }
     const mockRes = {
       json: jest.fn(),
       status: jest.fn(() => mockRes)
@@ -26,7 +26,7 @@ describe('Review Controller', () => {
   it('should handle an exception and return a 500 status code', async () => {
     reviewsService.fetchReviews.mockRejectedValue(new Error('Test Error'))
 
-    const mockReq = {}
+    const mockReq = { params: { appId: 'appId' }, query: {} }
     const mockRes = {
       json: jest.fn(),
       status: jest.fn(() => mockRes)
