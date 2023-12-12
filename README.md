@@ -1,19 +1,18 @@
 # Project Title
 
-Short description or tagline for the backend project.
+A backend built on NodeJs for fetching Apple store reviews RSS feed
 
 ## Introduction
 
-A brief overview of what the backend does and its main functionalities.
+- The backend fetches reviews for a specified `AppId` from the Itunes RSS feed for customer reviews
+- Reviews are persisted locally in a JSON file in `db/` with `AppId-reviews.json`
+- Exposing two endpoints
+  1. Refresh the persisted reviews
+  2. Get the persisted reviews
 
 ## Prerequisites
 
 - Node.js (18.15.0)
-
-### Configuration
-
-- Environment variables setup
-- Database configurations
 
 ## Installation
 
@@ -35,13 +34,13 @@ npm install
 ```bash
 
 # Start the server
-npm start
+npm run start
 
 # Lint
-npm lint
+npm run lint
 
 # Refresh reviews
-npm refreshReviews -- YourAppId
+npm run refreshReviews -- YourAppId
 ```
 
 ## Testing
@@ -72,6 +71,7 @@ npm run test
 - **Query Parameters:**
   - `page` (optional): Page number for pagination (default: 1)
   - `limit` (optional): Number of reviews per page (default: 10)
+  - `sinceHours`: How far to look back in the reviews in Hours (default: 48)
 - **Response:**
   - **Status Code:** 200 OK
   - **Response Body:**
