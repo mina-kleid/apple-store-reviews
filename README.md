@@ -1,4 +1,4 @@
-# Project Title
+# Apple store reviews
 
 A backend built on NodeJs for fetching Apple store reviews RSS feed
 
