@@ -1,23 +1,19 @@
 import { fetchReviews, updateReviews } from '../service/reviews.js'
+import { paginate } from './pagination.js'
 
 export async function getReviews (req, res) {
   try {
     const { appId } = req.params
+    const { sinceHours = 48 } = req.query
+
     const allReviews = await fetchReviews(appId)
-    const { page = 1, limit = 10 } = req.query
 
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
-    const reviews = allReviews.slice(startIndex, endIndex)
-    const totalItems = allReviews.length
-    const totalPages = Math.ceil(totalItems / limit)
+    const hoursAgo = new Date().getTime() - (sinceHours * 60 * 60 * 1000)
+    const reviewsSinceHours = allReviews.filter(
+      (review) => new Date(review.updatedAt).getTime() > hoursAgo
+    )
 
-    const pagination = {
-      totalItems,
-      itemsPerPage: reviews.length,
-      currentPage: parseInt(page),
-      totalPages
-    }
+    const { paginatedReviews: reviews, pagination } = paginate(req, reviewsSinceHours)
 
     res.json({ reviews, pagination })
   } catch (error) {
