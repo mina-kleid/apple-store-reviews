@@ -2,6 +2,8 @@
 
 A backend built on NodeJs for fetching Apple store reviews RSS feed
 
+Frontend: https://github.com/mina-kleid/apple-store-reviews-frontend
+
 ## Introduction
 
 - The backend fetches reviews for a specified `AppId` from the Itunes RSS feed for customer reviews
